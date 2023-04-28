@@ -3,18 +3,13 @@ import requests
 import time
 import concurrent.futures
 
-PUSHGATEWAY_HOST = "localhost:9091"
-JOB_NAME = "cae_performance"
-HOST_NAME = "delivery-1.cmsqa.arri.com"
+PUSHGATEWAY_HOST = ""
+JOB_NAME = ""
+HOST_NAME = ""
 
-url_prefix = "http://localhost:40980"
+url_prefix = ""
 
-URLS = [
-    "/blueprint/servlet/en",
-    "/blueprint/servlet/en/camera-systems/cameras",
-    "/blueprint/servlet/en/camera-systems/cameras/alexa-35",
-    "/blueprint/servlet/en/lighting/led/skypanel/s60-c"
-]
+URLS = []
 
 WARMUP_REQUESTS = 5
 CONCURRENT_REQUESTS = [20, 20, 20]
@@ -67,7 +62,7 @@ for i in range(len(CONCURRENT_REQUESTS)):
 
             print(f"Average response time for {url} - {delay} delay: {avg_response_time} seconds")
             # Set the value of the Gauge metric for the average response time
-            g_avg_response_time.labels(url_path, "qa", "frontend", "delivery-1.cmsqa.arri.com", requests_count, delay).set(avg_response_time)
+            g_avg_response_time.labels(url_path, "qa", "frontend", "", requests_count, delay).set(avg_response_time)
             # Push the metric to the Pushgateway
             push_to_gateway(f"http://{PUSHGATEWAY_HOST}/",JOB_NAME, registry=registry)
 
